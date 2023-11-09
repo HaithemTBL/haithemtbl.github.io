@@ -612,7 +612,7 @@
   height: 97.5%;
   /* border-radius: 50%; */
   /* color: #fff; */
-  padding-top: 15px;
+  padding-top: 33%;
   /* left: 344px; */
     /* bottom: 0px; */
     /* margin-right: 5px; */
@@ -627,6 +627,11 @@
   padding: 13px;
   /* border: 1px solid transparent; */
   border-radius: 50%;
+}
+  @media only screen and (max-width: 600px) {
+  .ou-span{
+  padding: 7px;
+  }
 }
 .navbar {
   z-index: 15;
