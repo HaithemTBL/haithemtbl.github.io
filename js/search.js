@@ -201,6 +201,7 @@ function displaySpecialityResults(data, searchText) {
       filteredSpecialities.slice(0, 5).forEach((speciality) => {
         const resultItem = document.createElement("a");
         resultItem.classList.add("list-group-item", "list-group-item-action");
+        resultItem.href = `specialities.html?id=${speciality.id}`;
         resultItem.innerHTML = `<i class="fas fa-medkit mr-2 text-primary"></i>${speciality.name}`;
         resultContainerSpecialities.appendChild(resultItem);
       });
@@ -227,6 +228,7 @@ function displayEstablishmentResults(data, searchText) {
       filteredEstablishments.slice(0, 5).forEach((establishment) => {
         const resultItem = document.createElement("a");
         resultItem.classList.add("list-group-item", "list-group-item-action");
+        resultItem.href = `etablisments.html?id=${establishment.id}`;
         resultItem.innerHTML = `<i class="fas fa-hospital mr-2 text-success"></i>${establishment.name} <div class="sous-item">${establishment.city}</div>`;
         resultContainerPractician.appendChild(resultItem);
       });
@@ -283,6 +285,7 @@ function displayPracticianResults(data, searchText) {
               "list-group-item",
               "list-group-item-action"
             );
+        resultItem.href = `practicien.html?id=${practitioner.id}`;
             resultItem.innerHTML = `<i class="fas fa-user-md mr-2 text-info"></i>${practitioner.first_name} ${practitioner.last_name} <div class="sous-item"> ${practitioner.speciality}</div>`;
             resultContainerPractician.appendChild(resultItem);
           });
