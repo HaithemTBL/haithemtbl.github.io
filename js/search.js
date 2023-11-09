@@ -8,7 +8,15 @@ const apiUrls = [
 ];
 
 const searchInput = document.getElementById("search-input");
-const resultContainer = document.getElementById("result-container");
+const searchInputSpecialities = document.getElementById(
+  "search-input-specialities"
+);
+const resultContainerPractician = document.getElementById(
+  "result-container-practician"
+);
+const resultContainerSpecialities = document.getElementById(
+  "result-container-specialities"
+);
 const searchForm = document.getElementById("search-form");
 let searchTimeout;
 let lastSearch = "";
@@ -18,16 +26,32 @@ let isCacheFilled = false; // Flag to check if the cache is filled
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const searchText = searchInput.value.trim().toLowerCase();
-  if (searchText.trim() !== "") {
-    window.location.href = `search.html?query=${encodeURIComponent(searchText)}`;
+  const searchTextSpecialities = searchInputSpecialities.value
+    .trim()
+    .toLowerCase();
+
+  if (searchText !== "") {
+    window.location.href = `search.html?query=${encodeURIComponent(
+      searchText
+    )}`;
+  }
+
+  if (searchTextSpecialities !== "") {
+    window.location.href = `search.html?query=${encodeURIComponent(
+      searchTextSpecialities
+    )}`;
   }
 });
 
+let activeSearchBar = "practician"; // Default active search bar
+
 searchInput.addEventListener("input", () => {
   const searchText = searchInput.value.trim().toLowerCase();
+
   if (searchText === lastSearch) {
     return;
   }
+
   clearTimeout(searchTimeout);
   lastSearch = searchText;
   searchTimeout = setTimeout(() => {
@@ -35,36 +59,76 @@ searchInput.addEventListener("input", () => {
   }, 100);
 });
 
+searchInputSpecialities.addEventListener("input", () => {
+  activeSearchBar = "specialities";
+  const searchTextSpecialities = searchInputSpecialities.value
+    .trim()
+    .toLowerCase();
+
+  if (searchTextSpecialities === lastSearch) {
+    return;
+  }
+
+  clearTimeout(searchTimeout);
+  lastSearch = searchTextSpecialities;
+  searchTimeout = setTimeout(() => {
+    searchInAPIs(searchTextSpecialities);
+  }, 100);
+});
+
+// searchInput.addEventListener("input", () => {
+//   const searchText = searchInput.value.trim().toLowerCase();
+//   if (searchText === lastSearch) {
+//     return;
+//   }
+//   searchInputSpecialities.addEventListener("input", () => {
+//   const searchTextSpecialities = searchInputSpecialities.value.trim().toLowerCase();
+//   if (searchTextSpecialities === lastSearch) {
+//     return;
+//   }
+//   clearTimeout(searchTimeout);
+//   lastSearch = searchText;
+//   searchTimeout = setTimeout(() => {
+//     searchInAPIs(searchText);
+//   }, 100);
+//   clearTimeout(searchTimeout);
+//   lastSearch = searchTextSpecialities;
+//   searchTimeout = setTimeout(() => {
+//     searchInAPIs(searchTextSpecialities);
+//   }, 100);
+// });
+
 // Modified function to fill the cache only once
 function fillCache() {
   if (!isCacheFilled) {
-    Promise.all(apiUrls.map(apiUrl => {
-      return fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            return response.json();
-          } else {
-            throw new Error("Erreur lors de la requête à l'API");
-          }
+    Promise.all(
+      apiUrls.map((apiUrl) => {
+        return fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         })
-        .catch((error) => {
-          console.error(error);
-        });
-    }))
-      .then((results) => {
-        // Store results in cache for later searching
-        apiUrls.forEach((apiUrl, index) => {
-          cache[apiUrl] = results[index];
-        });
-
-        // Set the flag to indicate the cache is filled
-        isCacheFilled = true;
+          .then((response) => {
+            if (response.status === 200) {
+              return response.json();
+            } else {
+              throw new Error("Erreur lors de la requête à l'API");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+    ).then((results) => {
+      // Store results in cache for later searching
+      apiUrls.forEach((apiUrl, index) => {
+        cache[apiUrl] = results[index];
       });
+
+      // Set the flag to indicate the cache is filled
+      isCacheFilled = true;
+    });
   }
 }
 // Call fillCache once the page is loaded
@@ -72,8 +136,8 @@ window.addEventListener("load", fillCache);
 
 // Modified function to use the filled cache
 function searchInAPIs(searchText) {
-  resultContainer.innerHTML = "";
-
+  resultContainerPractician.innerHTML = "";
+  resultContainerSpecialities.innerHTML = "";
   if (searchText.trim() === "") {
     return;
   }
@@ -83,19 +147,48 @@ function searchInAPIs(searchText) {
 
   // Call display functions based on the API type
   apiUrls.forEach((apiUrl) => {
-    if (apiUrl.includes("specialities")) {
+    if (apiUrl.includes("specialities") && activeSearchBar === "specialities") {
       displaySpecialityResults(cache[apiUrl], searchText);
-    } else if (apiUrl.includes("practician")) {
+    } else if (
+      apiUrl.includes("practician") &&
+      activeSearchBar === "practician"
+    ) {
       displayPracticianResults(cache[apiUrl], searchText);
-    } else if (apiUrl.includes("establishments")) {
+    } else if (
+      apiUrl.includes("establishments") &&
+      activeSearchBar === "establishments"
+    ) {
       displayEstablishmentResults(cache[apiUrl], searchText);
-    } else if (apiUrl.includes("practicians")) {
-      displayPracticianResults(cache[apiUrl], searchText);
     }
   });
+  if (activeSearchBar === "practician") {
+    if (resultContainerPractician.children.length === 0) {
+      resultContainerPractician.style.display = "none";
+    } else {
+      resultContainerPractician.style.display = "block";
+    }
+  } else if (activeSearchBar === "specialities") {
+    if (resultContainerSpecialities.children.length === 0) {
+      resultContainerSpecialities.style.display = "none";
+    } else {
+      resultContainerSpecialities.style.display = "block";
+    }
+  }
+  // }
+  // }
+
+  if (resultContainerPractician.children.length === 0) {
+    resultContainerPractician.style.display = "none";
+  } else {
+    resultContainerPractician.style.display = "block";
+  }
+
+  if (resultContainerSpecialities.children.length === 0) {
+    resultContainerSpecialities.style.display = "none";
+  } else {
+    resultContainerSpecialities.style.display = "block";
+  }
 }
-
-
 
 function displaySpecialityResults(data, searchText) {
   if (data && data.data && data.data.speciality && data.data.speciality.data) {
@@ -109,7 +202,7 @@ function displaySpecialityResults(data, searchText) {
         const resultItem = document.createElement("a");
         resultItem.classList.add("list-group-item", "list-group-item-action");
         resultItem.innerHTML = `<i class="fas fa-medkit mr-2 text-primary"></i>${speciality.name}`;
-        resultContainer.appendChild(resultItem);
+        resultContainerSpecialities.appendChild(resultItem);
       });
     }
   }
@@ -135,7 +228,7 @@ function displayEstablishmentResults(data, searchText) {
         const resultItem = document.createElement("a");
         resultItem.classList.add("list-group-item", "list-group-item-action");
         resultItem.innerHTML = `<i class="fas fa-hospital mr-2 text-success"></i>${establishment.name} <div class="sous-item">${establishment.city}</div>`;
-        resultContainer.appendChild(resultItem);
+        resultContainerPractician.appendChild(resultItem);
       });
     }
   }
@@ -161,7 +254,7 @@ function displayEstablishmentResults(data, searchText) {
 //           const resultItem = document.createElement("a");
 //           resultItem.classList.add("list-group-item", "list-group-item-action");
 //           resultItem.innerHTML = `<i class="fas fa-user-md mr-2 text-info"></i>${practitioner.first_name} ${practitioner.last_name}  Spécialité: ${practitioner.speciality}`;
-//           resultContainer.appendChild(resultItem);
+//           resultContainerPractician.appendChild(resultItem);
 //         });
 //       }
 //     }
@@ -191,7 +284,7 @@ function displayPracticianResults(data, searchText) {
               "list-group-item-action"
             );
             resultItem.innerHTML = `<i class="fas fa-user-md mr-2 text-info"></i>${practitioner.first_name} ${practitioner.last_name} <div class="sous-item"> ${practitioner.speciality}</div>`;
-            resultContainer.appendChild(resultItem);
+            resultContainerPractician.appendChild(resultItem);
           });
         }
       }
@@ -205,7 +298,7 @@ function isCacheEmpty() {
 
 // Example usage
 if (isCacheEmpty()) {
-  console.log('Cache is empty');
+  console.log("Cache is empty");
 } else {
-  console.log('Cache is not empty');
+  console.log("Cache is not empty");
 }

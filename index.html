@@ -37,7 +37,7 @@
           opacity: 0;
         }
       }
-      .list-group {
+      .list-group-practician {
         max-height: 170px;
         overflow-y: scroll;
         /* border: 1px solid #50d6b6; */
@@ -46,10 +46,26 @@
         flex-direction: column;
         padding-left: 0;
         margin-bottom: 0;
-        width: 62%;
-        margin-left: 69px;
+        width: 100%;
+        /* margin-left: 69px; */
         text-align: left;
-        position: absolute;
+        /* position: absolute; */
+        top: 100%;
+        border-bottom: 1px solid #50d6b6;
+      }
+      .list-group-specialties {
+        max-height: 170px;
+        overflow-y: scroll;
+        /* border: 1px solid #50d6b6; */
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        width: 100%;
+        /* margin-left: 69px; */
+        text-align: left;
+        /* position: absolute; */
         top: 100%;
         border-bottom: 1px solid #50d6b6;
       }
@@ -118,15 +134,25 @@
         margin-left: 10%;
         font-family: Varela Round, sans-serif;
       }
-      /* .item-a {
-          grid-area: search;
-        }
-        .item-b {
-          grid-area: button;
-        }
-        .item-c {
-          grid-area: list;
-        } */
+      .item-a {
+        grid-area: search1;
+      }
+      .item-b {
+        grid-area: search2;
+        border-left: 1px solid transparent !important;
+      }
+      .item-c {
+        grid-area: button;
+      }
+      .item-d {
+        grid-area: list1;
+      }
+      .item-e {
+        grid-area: list2;
+      }
+      .item-f {
+        grid-area: ou;
+      }
     </style>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link
@@ -893,28 +919,35 @@
             <form action="" class="search w-form" id="search-form">
               <input
                 type="search"
-                class="search-input w-input"
+                class="search-input w-input item-a"
                 maxlength="256"
                 name="query"
                 placeholder="Rechercher un praticien, un etablissement..."
                 id="search-input"
-                required=""
-              />
-              <div class="ou"><span class="ou-span">OU</span></div>
-              <input
+                />
+                <div class="ou item-f"><span class="ou-span">OU</span></div>
+                <input
                 type="search"
-                class="search-input w-input item-a"
+                class="search-input w-input item-b"
                 maxlength="256"
                 name="query"
                 placeholder="Rechercher un specialité, un lieu..."
-                id="search-input"
-                required=""
-              /><input
+                id="search-input-specialities"
+                /><input
                 type="submit"
                 value="Rechercher"
-                class="search-button w-button item-b"
+                class="search-button w-button item-c"
               />
-              <div class="list-group" id="result-container">
+              <div
+                class="list-group-practician item-d"
+                id="result-container-practician"
+              >
+                <!-- Les résultats seront ajoutés ici -->
+              </div>
+              <div
+                class="list-group-specialties item-e"
+                id="result-container-specialities"
+              >
                 <!-- Les résultats seront ajoutés ici -->
               </div>
             </form>
