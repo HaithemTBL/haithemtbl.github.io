@@ -285,7 +285,7 @@ function displayPracticianResults(data, searchText) {
               "list-group-item",
               "list-group-item-action"
             );
-        resultItem.href = `practicien.html?id=${practitioner.id}`;
+            resultItem.href = `practicien.html?id=${practitioner.id}`;
             resultItem.innerHTML = `<i class="fas fa-user-md mr-2 text-info"></i>${practitioner.first_name} ${practitioner.last_name} <div class="sous-item"> ${practitioner.speciality}</div>`;
             resultContainerPractician.appendChild(resultItem);
           });
