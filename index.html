@@ -190,6 +190,12 @@
     <!-- <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" /> -->
     <link href="images/webclip.png" rel="apple-touch-icon" />
     <link rel="manifest" href="manifest.json" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+   <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-messaging.js"></script>
   </head>
   <body class="body">
     <div
@@ -200,6 +206,7 @@
       data-easing2="ease"
       role="banner"
       class="navbar-2 w-nav"
+      id="nav-top"
     >
       <div class="nav-container">
         <a href="#" class="brand w-nav-brand"
@@ -2887,6 +2894,21 @@
         </div>
       </div>
     </div>
+    <div class="bottom-navbar">
+      <a href="#" class="nav-item">
+        <i class="fa fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa fa-user"></i>
+        <span>Profile</span>
+      </a>
+    </div>
+
     <script
       src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=651e7c91bff21d27db966604"
       type="text/javascript"

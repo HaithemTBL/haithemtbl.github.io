@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Splash Screen</title>
+    <style>
+      /* Add your custom styles here */
+      body {
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .splash-content {
+        width: 100%;
+        height: 62%;
+        background-color: #bbfce6;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+      .rad1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #50d6b6;
+        width: 65%;
+        margin-left: 10%;
+        margin-right: 10%;
+        border-radius: 50%;
+        height: 55%;
+        justify-content: center;
+      }
+
+      .rad2 {
+        background-color: #d4f4fe;
+        border-radius: 50%;
+        width: 80%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .splash-title {
+        font-size: 32px;
+      }
+
+      .splash-icon {
+        width: 120px;
+        height: 120px;
+      }
+      .top,
+      .bottom {
+        height: 18%;
+        width: 100%;
+        position: absolute;
+        background-color: #bbfce6;
+        top: 10%;
+        border-top-left-radius: 80%;
+        border-top-right-radius: 80%;
+      }
+      .bottom {
+        top: 72% !important;
+        border-bottom-left-radius: 80%;
+        border-bottom-right-radius: 80%;
+        bottom: 10% !important;
+      }
+      p {
+        position: absolute;
+        bottom: 0%;
+        z-index: 6;
+        font-size: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="splash-content">
+      <div class="top"></div>
+      <div class="rad1">
+        <div class="rad2">
+          <img src="images/fav-icon.png" alt="App Icon" class="splash-icon" />
+        </div>
+      </div>
+      <!-- <p>Tabiblib Technologies</p> -->
+      <div class="bottom"></div>
+    </div>
+    <script>
+        setTimeout(function () {
+            window.location.href = "index.html"; // Redirect to the main content
+        }, 500); // 3000 milliseconds (3 seconds)
+    </script>
+  </body>
+</html>

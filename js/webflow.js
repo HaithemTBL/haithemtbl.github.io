@@ -18,6 +18,47 @@ if ("serviceWorker" in navigator) {
     });
 }
 
+const config = {
+  apiKey: "AIzaSyCG4DcxWk1hDJFDGCJfIRSiwCCfUdItv5c",
+  authDomain: "test-pwa-7a8d5.firebaseapp.com",
+  projectId: "test-pwa-7a8d5",
+  storageBucket: "test-pwa-7a8d5.appspot.com",
+  messagingSenderId: "204981974196",
+  appId: "1:204981974196:web:6feba7a6069cfab267d3e1",
+  measurementId: "G-6WDXTLFZGH",
+};
+firebase.initializeApp(config);
+const messaging = firebase.messaging();
+messaging
+  .requestPermission()
+  .then(() => {
+    message.innerHTML = "Notifications allowed";
+    return messaging.getToken();
+  })
+  .then(token => {
+    tokenString.innerHTML = "Token Is : " + token;
+  })
+  .catch(err => {
+    errorMessage.innerHTML = errorMessage.innerHTML + "; " + err;
+    console.log("No permission to send push", err);
+  });
+  messaging.onMessage(payload => {
+    console.log("Message received. ", payload);
+    const { title, ...options } = payload.notification;
+  });
+  
+messaging.setBackgroundMessageHandler(payload => {
+  const notification = JSON.parse(payload.data.notification);
+  const notificationTitle = notification.title;
+  const notificationOptions = {
+    body: notification.body
+  };
+  //Show the notification :)
+  return self.registration.showNotification(
+    notificationTitle,
+    notificationOptions
+  );
+});
 
 (() => {
   var H_ = Object.create;
