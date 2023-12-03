@@ -187,6 +187,15 @@
             (n.className += t + "touch");
       })(window, document);
     </script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.init({
+          appId: "83a0a251-02d6-4b75-9105-88dcff72d1ed",
+        });
+      });
+    </script>
     <!-- <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" /> -->
     <link href="images/webclip.png" rel="apple-touch-icon" />
   </head>
